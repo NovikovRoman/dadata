@@ -18,8 +18,8 @@ type (
 	}
 )
 
-// Balance return daily statistics
-// see documentation https://dadata.ru/api/stat/
+// Balance returns current account balance
+// see documentation https://dadata.ru/api/balance/
 func (a *Api) Balance(ctx context.Context) (result *BalanceResponse, err error) {
 	result = &BalanceResponse{}
 	err = a.Client.Get(ctx, "profile/balance", nil, result)

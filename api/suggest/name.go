@@ -26,9 +26,9 @@ const (
 type (
 	NameParams struct {
 		Query  string   `json:"query"`
-		Count  int      `json:"count"`
-		Parts  []string `json:"parts"`
-		Gender string   `json:"gender"`
+		Count  int      `json:"count,omitempty"`
+		Parts  []string `json:"parts,omitempty"`
+		Gender string   `json:"gender,omitempty"`
 	}
 	NameOption func(params *NameParams)
 

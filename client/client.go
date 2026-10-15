@@ -4,11 +4,15 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 
 	"github.com/NovikovRoman/dadata/v2/client/transport"
 )
+
+// maxErrorBodySize limits how much of a non-200 response body is kept in ResponseError.
+const maxErrorBodySize = 4096
 
 type (
 	// Client is a transport for API calls.
@@ -64,20 +68,25 @@ func (c *Client) doRequest(ctx context.Context, method string, url *url.URL, bod
 		return fmt.Errorf("doRequest: context err: %w", err)
 	}
 
-	buffer := &bytes.Buffer{}
-
-	if err = c.options.encoderFactory(buffer)(body); err != nil {
-		return fmt.Errorf("doRequest: request body ecnode err: %w", err)
+	var requestBody io.Reader
+	if body != nil {
+		buffer := &bytes.Buffer{}
+		if err = c.options.encoderFactory(buffer)(body); err != nil {
+			return fmt.Errorf("doRequest: request body encode err: %w", err)
+		}
+		requestBody = buffer
 	}
 
-	request, err := http.NewRequestWithContext(ctx, method, url.String(), buffer)
+	request, err := http.NewRequestWithContext(ctx, method, url.String(), requestBody)
 	if err != nil {
 		return fmt.Errorf("doRequest: new request err: %w", err)
 	}
 
 	request.Header.Add("Authorization", fmt.Sprintf("Token %s", c.options.credentialProvider.ApiKey()))
 	request.Header.Add("X-Secret", c.options.credentialProvider.SecretKey())
-	request.Header.Add("Content-Type", "application/json")
+	if requestBody != nil {
+		request.Header.Add("Content-Type", "application/json")
+	}
 	request.Header.Add("Accept", "application/json")
 
 	response, err := c.options.httpClient.Do(request)
@@ -88,9 +97,10 @@ func (c *Client) doRequest(ctx context.Context, method string, url *url.URL, bod
 	defer response.Body.Close()
 
 	if http.StatusOK != response.StatusCode {
+		respBody, _ := io.ReadAll(io.LimitReader(response.Body, maxErrorBodySize))
 		return fmt.Errorf(
 			"doRequest: Response not OK: %w",
-			&ResponseError{Status: response.Status, StatusCode: response.StatusCode},
+			&ResponseError{Status: response.Status, StatusCode: response.StatusCode, Body: respBody},
 		)
 	}
 

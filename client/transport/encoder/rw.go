@@ -38,9 +38,7 @@ func RawDecoderFactory() transport.DecoderFactory {
 		return func(v interface{}) (err error) {
 			switch value := v.(type) {
 			case *[]byte:
-				_, err = r.Read(*value)
-			case []byte:
-				_, err = r.Read(value)
+				*value, err = io.ReadAll(r)
 			case io.Writer:
 				_, err = io.Copy(value, r)
 			case io.ReaderFrom:

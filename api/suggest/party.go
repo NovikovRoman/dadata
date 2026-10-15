@@ -82,7 +82,7 @@ func (a *Api) Party(ctx context.Context, params *RequestParams) (ret []*PartySug
 	return
 }
 
-// Party find parties by ID
+// PartyByID find parties by ID
 // https://dadata.ru/api/find-party/
 func (a *Api) PartyByID(ctx context.Context, params *PartyByIDParams) (ret []*PartySuggestion, err error) {
 	var result = &PartyResponse{}

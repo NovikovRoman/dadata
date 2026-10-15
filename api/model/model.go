@@ -40,9 +40,16 @@ const (
 
 // Проверьте, указал ли клиент телефон, соответствующий его адресу, с помощью кода qc_conflict (удобно для проверки уровня риска):
 const (
-	QCConflictFullMath   = 0 // Телефон соответствует адресу
-	QCConflictCityMath   = 2 // Города адреса и телефона отличаются
-	QCConflictRegionMath = 3 // Регионы адреса и телефона отличаются
+	QCConflictFullMatch   = 0 // Телефон соответствует адресу
+	QCConflictCityMatch   = 2 // Города адреса и телефона отличаются
+	QCConflictRegionMatch = 3 // Регионы адреса и телефона отличаются
+
+	// Deprecated: use QCConflictFullMatch.
+	QCConflictFullMath = QCConflictFullMatch
+	// Deprecated: use QCConflictCityMatch.
+	QCConflictCityMath = QCConflictCityMatch
+	// Deprecated: use QCConflictRegionMatch.
+	QCConflictRegionMath = QCConflictRegionMatch
 )
 
 // const for SuggestBound
@@ -204,9 +211,9 @@ type (
 		QualityCodeCompleteRaw interface{} `json:"qc_complete"`    // Код полноты
 		QualityCodeHouseRaw    interface{} `json:"qc_house"`       // Код проверки дома
 		QualityCodeRaw         interface{} `json:"qc"`             // Код качества
-		UnparsedParts          string      `json:"unparsed_parts"`   // Нераспознанная часть адреса. Для адреса
-		HistoryValues          []string    `json:"history_values"`   // Список исторических названий объекта нижнего уровня
-		Divisions              interface{} `json:"divisions"`        // Поля адреса в адм. и мун. делениях (22.3+)
+		UnparsedParts          string      `json:"unparsed_parts"` // Нераспознанная часть адреса. Для адреса
+		HistoryValues          []string    `json:"history_values"` // Список исторических названий объекта нижнего уровня
+		Divisions              interface{} `json:"divisions"`      // Поля адреса в адм. и мун. делениях (22.3+)
 		Metro                  []*Metro    `json:"metro"`
 	}
 
