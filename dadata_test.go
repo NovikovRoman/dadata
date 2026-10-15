@@ -10,11 +10,11 @@ import (
 	"os"
 	"testing"
 
-	"github.com/ekomobile/dadata/v2/client"
-	"github.com/ekomobile/dadata/v2/client/transport/encoder"
+	"github.com/NovikovRoman/dadata/v2/client"
+	"github.com/NovikovRoman/dadata/v2/client/transport/encoder"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/ekomobile/dadata/v2/api/suggest"
+	"github.com/NovikovRoman/dadata/v2/api/suggest"
 )
 
 type (

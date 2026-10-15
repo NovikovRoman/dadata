@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/ekomobile/dadata/v2/client/transport"
+	"github.com/NovikovRoman/dadata/v2/client/transport"
 )
 
 // RawEncoderFactory is a factory for noop-encoder that just writes to transport io.Writer.

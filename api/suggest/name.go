@@ -3,7 +3,7 @@ package suggest
 import (
 	"context"
 
-	"github.com/ekomobile/dadata/v2/api/model"
+	"github.com/NovikovRoman/dadata/v2/api/model"
 )
 
 // Name gender values
