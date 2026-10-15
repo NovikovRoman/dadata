@@ -5,7 +5,7 @@ type (
 	// see docs https://dadata.ru/api/stat/
 	Stat struct {
 		Date     string `json:"date"`
-		Services *struct {
+		Services struct {
 			Brand       int `json:"brand"`
 			Clean       int `json:"clean"`
 			Company     int `json:"company"`
